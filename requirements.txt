@@ -1,0 +1,8 @@
+# --- START OF FILE requirements.txt ---
+
+Flask==2.3.3
+python-dotenv==1.0.0
+secure-smtplib==0.1.1 # Optional, provides helper for smtplib settings (not strictly required by current app.py)
+gunicorn==22.0.0      # Production WSGI server added
+
+# --- END OF FILE requirements.txt ---

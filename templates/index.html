@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parewa</title>
+    <style>
+        :root {
+            --primary-color: #2c6e49;
+            --primary-hover: #235c3b;
+            --text-color: #333;
+            --border-color: #d8e2dc;
+            --success-bg: #d1e7dd;
+            --success-text: #0f5132;
+            --error-bg: #f8d7da;
+            --error-text: #842029;
+            --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .tagline {
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #444;
+        }
+        
+        input[type="email"], 
+        input[type="text"], 
+        textarea {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border 0.2s;
+            box-sizing: border-box;
+        }
+        
+        input[type="file"] {
+            width: 100%;
+            padding: 0.5rem 0;
+            margin-bottom: 1.25rem;
+        }
+        
+        input:focus, 
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(44, 110, 73, 0.1);
+        }
+        
+        textarea {
+            height: 180px;
+            resize: vertical;
+        }
+        
+        .helper-text {
+            color: #777;
+            font-size: 0.75rem;
+            display: block;
+            margin-top: -0.5rem;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+        
+        button:active {
+            transform: translateY(1px);
+        }
+        
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        
+        .flash {
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+        
+        .flash.success {
+            background-color: var(--success-bg);
+            color: var(--success-text);
+            border-left: 4px solid var(--success-text);
+        }
+        
+        .flash.error {
+            background-color: var(--error-bg);
+            color: var(--error-text);
+            border-left: 4px solid var(--error-text);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Parewa</h1>
+        <span class="tagline">A simple SMTP Client</span>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+      
+<form action="/send" method="post" enctype="multipart/form-data">
+            
+            <!-- Newly Added Display Name Field -->
+            <div class="form-group">
+                <label for="display_name">Display Name (Optional):</label>
+                <input type="text" id="display_name" name="display_name">
+                <span class="helper-text">Name shown to the recipient in the 'From' field. Leave blank to only show the email address.</span>
+            </div>
+
+            <!-- Existing From Email Field -->
+            <div class="form-group">
+                <label for="from_email">From:</label>
+                <input type="email" id="from_email" name="from_email" required>
+                <span class="helper-text">The actual email address authorized to send email via SMTP.</span>
+            </div>
+
+            <!-- Rest of the form continues below -->
+            <div class="form-group">
+                <label for="to_email">To:</label>
+                <input type="email" id="to_email" name="to_email" required multiple>
+                <span class="helper-text">Separate multiple emails with a comma</span>
+            </div>
+            <div class="form-group">
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" name="subject" required>
+            </div>
+            <div class="form-group">
+                <label for="body">Body:</label>
+                <textarea id="body" name="body" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="attachments">Attachments:</label>
+                <input type="file" id="attachments" name="attachments" multiple>
+            </div>
+            <div>
+                <button type="submit">Send Email</button>
+            </div>
+        </form>
+
+    
+    </div>
+</body>
+</html>
