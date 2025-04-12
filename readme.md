@@ -1,4 +1,4 @@
-# Parewa - SMTP Client
+# Parewa - SMTP Client 🕊️
 
 <p align="center">
   <i>(Parewa means Pigeon in Nepali🇳🇵)</i>
