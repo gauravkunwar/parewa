@@ -15,185 +15,212 @@
             --error-bg: #f8d7da;
             --error-text: #842029;
             --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            --input-bg: #fff;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: var(--text-color);
             background-color: #f8f9fa;
             margin: 0;
-            padding: 2rem;
+            padding: 1rem; /* Adjusted padding */
         }
-        
+
         .container {
-            max-width: 650px;
-            margin: 0 auto;
+            max-width: 960px; /* Wider container */
+            margin: 1rem auto; /* Adjusted margin */
             background-color: white;
             padding: 2rem;
             border-radius: 10px;
             box-shadow: var(--box-shadow);
         }
-        
+
         h1 {
             color: var(--primary-color);
             margin-top: 0;
             margin-bottom: 0.5rem;
             font-weight: 600;
+            text-align: center;
         }
-        
+
         .tagline {
             color: #666;
-            font-size: 0.85rem;
-            margin-bottom: 1.5rem;
+            font-size: 0.9rem; /* Adjusted size */
+            margin-bottom: 2rem; /* Adjusted margin */
             display: block;
-            border-bottom: 2px solid #f0f0f0;
+            text-align: center;
+            border-bottom: 1px solid #eee; /* Lighter border */
             padding-bottom: 1rem;
         }
-        
+
         label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem; /* Reduced space */
             font-weight: 500;
             color: #444;
+            font-size: 0.9rem; /* Smaller label */
         }
-        
-        input[type="email"], 
-        input[type="text"], 
+
+        input[type="email"],
+        input[type="text"],
         textarea {
             width: 100%;
-            padding: 0.75rem;
-            margin-bottom: 1rem;
+            padding: 0.6rem 0.75rem; /* Reduced padding */
             border: 1px solid var(--border-color);
             border-radius: 6px;
-            font-size: 1rem;
-            transition: border 0.2s;
+            font-size: 0.95rem; /* Smaller font in input */
+            transition: border 0.2s, box-shadow 0.2s;
             box-sizing: border-box;
+            background-color: var(--input-bg);
+            margin-bottom: 0; /* Remove default margin */
         }
-        
+
         input[type="file"] {
             width: 100%;
             padding: 0.5rem 0;
-            margin-bottom: 1.25rem;
+            font-size: 0.9rem;
         }
-        
-        input:focus, 
+
+        input:focus,
         textarea:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(44, 110, 73, 0.1);
+            box-shadow: 0 0 0 3px rgba(44, 110, 73, 0.15);
         }
-        
+
         textarea {
-            height: 180px;
+            height: 150px; /* Slightly shorter textarea */
             resize: vertical;
         }
-        
+
         .helper-text {
             color: #777;
             font-size: 0.75rem;
             display: block;
-            margin-top: -0.5rem;
-            margin-bottom: 1rem;
+            margin-top: 0.25rem; /* Space above helper */
             font-style: italic;
         }
-        
+
         button {
+            display: block; /* Center button */
+            margin: 1.5rem auto 0 auto;
             background-color: var(--primary-color);
             color: white;
             border: none;
             border-radius: 6px;
-            padding: 0.8rem 1.5rem;
+            padding: 0.8rem 2rem; /* Wider padding */
             font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
             transition: background-color 0.2s, transform 0.1s;
         }
-        
+
         button:hover {
             background-color: var(--primary-hover);
         }
-        
+
         button:active {
             transform: translateY(1px);
         }
-        
+
         .form-group {
-            margin-bottom: 1.25rem;
+             /* Default spacing, overridden in flex rows */
+            margin-bottom: 1rem;
         }
-        
+
         .flash {
             padding: 1rem;
-            margin-bottom: 1.5rem;
+            margin: 0 auto 1.5rem auto; /* Center flash */
+            max-width: 960px; /* Match container */
             border-radius: 6px;
             font-weight: 500;
         }
-        
+
         .flash.success {
             background-color: var(--success-bg);
             color: var(--success-text);
             border-left: 4px solid var(--success-text);
         }
-        
+
         .flash.error {
             background-color: var(--error-bg);
             color: var(--error-text);
             border-left: 4px solid var(--error-text);
         }
+
+        /* Flexbox layout for wider screens */
+        @media (min-width: 768px) {
+            .form-row {
+                display: flex;
+                gap: 1.5rem; /* Space between columns */
+                margin-bottom: 1rem; /* Space below the row */
+                align-items: flex-start; /* Align items to the top */
+            }
+
+            .form-row .form-group {
+                flex: 1; /* Make groups share space equally */
+                margin-bottom: 0; /* Remove bottom margin, row handles spacing */
+            }
+        }
+
     </style>
 </head>
 <body>
+    <!-- Flash messages outside container -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
     <div class="container">
         <h1>Parewa</h1>
         <span class="tagline">A simple SMTP Client</span>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="flash {{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-      
-<form action="/send" method="post" enctype="multipart/form-data">
-            
-            <!-- Newly Added Display Name Field -->
-            <div class="form-group">
-                <label for="display_name">Display Name (Optional):</label>
-                <input type="text" id="display_name" name="display_name">
-                <span class="helper-text">Name shown to the recipient in the 'From' field. Leave blank to only show the email address.</span>
+
+        <form action="/send" method="post" enctype="multipart/form-data">
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="display_name">Display Name (Optional):</label>
+                    <input type="text" id="display_name" name="display_name" placeholder="e.g., Your Name">
+                    <span class="helper-text">Name shown to recipient.</span>
+                </div>
+                <div class="form-group">
+                    <label for="from_email">From Email:</label>
+                    <input type="email" id="from_email" name="from_email" required>
+                    <span class="helper-text">Must be allowed by the SMTP server/credentials.</span>
+                </div>
             </div>
 
-            <!-- Existing From Email Field -->
-            <div class="form-group">
-                <label for="from_email">From:</label>
-                <input type="email" id="from_email" name="from_email" required>
-                <span class="helper-text">The actual email address authorized to send email via SMTP.</span>
+             <div class="form-row">
+                <div class="form-group">
+                    <label for="to_email">To Recipient(s):</label>
+                    <input type="email" id="to_email" name="to_email" required multiple placeholder="recipient1@example.com, ...">
+                    <!-- <span class="helper-text">Separate multiple emails with a comma.</span> -->
+                </div>
+                 <div class="form-group">
+                    <label for="subject">Subject:</label>
+                    <input type="text" id="subject" name="subject" required>
+                 </div>
             </div>
 
-            <!-- Rest of the form continues below -->
-            <div class="form-group">
-                <label for="to_email">To:</label>
-                <input type="email" id="to_email" name="to_email" required multiple>
-                <span class="helper-text">Separate multiple emails with a comma</span>
-            </div>
-            <div class="form-group">
-                <label for="subject">Subject:</label>
-                <input type="text" id="subject" name="subject" required>
-            </div>
-            <div class="form-group">
+            <div class="form-group"> <!-- Body remains full width -->
                 <label for="body">Body:</label>
                 <textarea id="body" name="body" required></textarea>
             </div>
-            <div class="form-group">
+
+            <div class="form-group"> <!-- Attachments remain full width -->
                 <label for="attachments">Attachments:</label>
                 <input type="file" id="attachments" name="attachments" multiple>
             </div>
+
             <div>
                 <button type="submit">Send Email</button>
             </div>
         </form>
-
-    
     </div>
 </body>
 </html>

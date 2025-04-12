@@ -1,5 +1,9 @@
 # Parewa - SMTP Client
 
+<p align="center">
+  <i>(Parewa means Pigeon in Nepali🇳🇵)</i>
+</p>
+
 A simple web-based SMTP client built with Flask and packaged with Docker. It allows you to send emails (including attachments) via a configured SMTP server through an easy-to-use web interface.
 
 ## Features
